@@ -25,6 +25,9 @@ crime.shoot <- filter(crime.clean, Shoot == 1)
 crime.homicide <- filter(crime.clean, Homicide == 1)
 crime.missing <- filter(crime.clean, Missing == 1)
 
+
+
+
 # Define UI for application that draws a histogram
 ui <- fluidPage(
     sidebarLayout(
@@ -33,6 +36,9 @@ ui <- fluidPage(
                      checkboxInput("murder", "Homicide", FALSE)),
     mainPanel( 
         leafletOutput(outputId = "mymap"),
+        
+        
+        
         p("Hello! This is my shinyapp. I used the crime data. 
           You can hover your mouse over the many points here to see 
           basic info about it. You can click the points to highlight 
@@ -73,7 +79,6 @@ pal4 <- colorFactor(
 output$mymap <- renderLeaflet({
     leaflet(crime.clean) %>% 
         setView(lng = -71.1, lat = 42.32, zoom = 11.5)  %>% 
-        #setting the view over ~ center of North America
         addTiles() %>% 
         addCircles(data = crime.clean, lat = ~ Lat, lng = ~ Long, weight = 1, 
                    radius = 30, popup = ~as.character(OFFENSE_CODE_GROUP), 
