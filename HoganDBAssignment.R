@@ -11,6 +11,7 @@ JFC <- read.csv("JFC Contributions (DO NOT SUM W-Table 1.csv",header=T,na.string
 contrib_all <- apply(contrib_all,2,toupper)
 contrib_all <- as.data.frame(contrib_all)
 
+# Thank you Harry for this idea!
 contrib_all$contrib <- gsub(", ", "/", contrib_all$contrib)
 contrib_all$contrib <- sub(" .+","",contrib_all$contrib)
 contrib_all$contrib <- sub(",.+","",contrib_all$contrib)
@@ -20,6 +21,7 @@ contrib_all$contrib <- sub("/","",contrib_all$contrib)
 families <- select(contrib_all, contribid, fam, contrib, lastname)
 families <- families[grep(",",families$contrib),]
 families %<>% group_by(contribid,fam) %>% slice(which.min(nchar(as.character(contrib)))) %>% distinct()
+test <- families %>% select(contribid,fam) %>% distinct()
 
 contributions <- select(contrib_all, fectransid, recipid, contribid, fam, date, amount)
 contributions %<>% distinct()
